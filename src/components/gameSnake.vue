@@ -78,12 +78,26 @@ function collisionCheck() {
     for (let y = 0; y < Board.length; y++) {
         for (let x = 0; x < Board[y].length; x++) {
             if (Board[y][x] == 1) {
-                let bx = innerWidth * 0.19 * y + innerWidth * 0.05
+                // console.log("check", x, y, Board[y][x])
+                let bx = innerWidth * 0.19 * x + (innerWidth * 0.05)
                 let by = 60 * y + 10
                 let w = innerWidth * 0.09
                 let h = 40
-                if (ballX.value + 40 >= bx & ballY.value + 40 >= by & ballX.value <= (bx + w) & ballY.value <= (by + h)) {
-                    console.log(x, y, "pensil")
+                if ((ballX.value + 20) >= bx && ballX.value <= (bx + w) && ballY.value <= (by + h) && (ballY.value + 20) >= by) {
+                    Board[y][x] = 0
+                    let top = Math.abs(by + h - ballY.value)
+                    let bottom = Math.abs(by - (ballY.value + 20))
+                    let left = Math.abs(bx + w - ballX.value)
+                    let right = Math.abs(bx - (ballX.value + 20))
+                    let minY = (top <= bottom)?top:bottom
+                    let minX = (left <= right)?left:right
+                    if (minX >= minY) { 
+                        addSpeed()
+                        ballVecY = -ballVecY
+                    } else {
+                        addSpeed()
+                        ballVecX = -ballVecX
+                    }
                 }
             }
         }
